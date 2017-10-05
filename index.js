@@ -22,11 +22,11 @@ app.set('view engine', 'handlebars');
 ///Show waiters a screen where they can select the days they can work on
 app.get("/waiters/:username", function(req, res) {
     var waiterName = req.params.username;
+    var workdays = req.body.workdays;
     res.render("form", {
-        name: waiterName
+        name: waiterName,
+        days: workdays
     });
-
-
 });
 
 ////Send the days a waiter can work to the server.
@@ -34,45 +34,92 @@ app.post("/waiters/:username", function(req, res) {
     var waiterName = req.params.username;
     var workdays = req.body.workdays;
 
-    console.log(req.body);
+    //console.log(workdays);
     var waiterShift = new WaiterShift({
-        name: waiterName[""] !== undefined,
-        monday: workdays["Monday"] !== undefined,
-        tuesday:workdays["Tuesday"] !== undefined ,
-        wednesday: workdays["Wednesday"] !== undefined,
-        thursday: workdays["Thursday"] !== undefined,
-        friday: workdays["Friday"] !== undefined
+        name: waiterName,
+        days: workdays
     });
     //console.log(newData);
-     waiterShift.save(function(err, results) {
-         if (err) {
+    waiterShift.save(function(err, results) {
+        if (err) {
             console.log(err);
         } else {
-          //console.log(results);
+            //res.render("form2",{name:results})
         }
-});
+
+    });
 
 });
 
 ////Show your sister which days waiters can work
 app.get("/days", function(req, res) {
-    // /////filter checkboxes ////////
-    //
-    // var checks = req.body.checkBox;
-    // // console.log(radios);
-    // database.find({
-    //     name: {
-    //         $regex: checks
-    //     }
-    // }, function(err, results) {
-    //     console.log(results);
-    //     res.render("form", {
-    //         name: results
-    //     });
-    // });
+    WaiterShift.find({}, function(err, results) {
+      if (err) {
+        console.log(err);
+      }else {
+        var monday = [];
+        var tuesday = [];
+        var wednesday = [];
+        var thursday = [];
+        var friday = [];
+results.forEach(function (day) {
+  var Name = day.name;
+  var Days = day.days;
+  for (var i = 0; i < Days.length; i++) {
 
+    if (Days[i] == "Monday") {
+      monday.push(Name);
+      // console.log("ndinguMonday" + monday);
+    }else if (Days[i] == "Tuesday") {
+      // console.log("ndinguTuesday" + tuesday);
+      tuesday.push(Name);
+
+    }else if (Days[i] == "Wednesday") {
+      wednesday.push(Name);
+      // console.log(wednesday);
+    }else if (Days[i] == "Thursday") {
+      thursday.push(Name);
+      // console.log(thursday);
+    }else if (Days[i] == "Friday") {
+      friday.push(Name);
+      // console.log(friday);
+    }
+
+
+  }
 });
 
+function changeCol(colour)
+{
+  if(colour === 3){return "greenColor";};
+  if (colour < 3) {
+    return "yellowColor";
+  }if (colour > 3){
+    return "redColor";
+  }
+}
+res.render("form2",{
+  mondayDisp:monday,
+  monColor:changeCol(monday.length),
+  tuesdayDisp:tuesday,
+  tueColor:changeCol(tuesday.length),
+  wednesdayDisp:wednesday,
+  wedColor:changeCol(wednesday.length),
+  thursdayDisp:thursday,
+  thursColor:changeCol(thursday.length),
+  fridayDisp:friday,
+  friColor:changeCol(friday.length)
+})
+
+
+
+
+      }
+
+
+
+    })
+});
 app.set("port", (process.env.PORT || 4000));
 app.set("host", (process.env.HOST || "http://localhost"));
 app.listen(app.get("port"), function(err) {

@@ -1,0 +1,43 @@
+table, th, td {
+   border: 1px solid black;
+}
+body{
+  background-color: grey;
+}
+
+.displayDays{
+  display: inline;
+
+}
+
+.displayDays1{
+border: 1px solid black;
+padding: 40px;
+
+}
+.displayDays2{
+border: 1px solid black;
+padding: 40px;
+}
+.displayDays3{
+border: 1px solid black;
+padding: 40px;
+}
+.displayDays4{
+border: 1px solid black;
+padding: 40px;
+}
+.displayDays5{
+border: 1px solid black;
+padding: 40px;
+}
+
+.greenColor {
+  background-color: green;
+}
+.yellowColor {
+  background-color: yellow;
+}
+.redColor {
+  background-color: red;
+}

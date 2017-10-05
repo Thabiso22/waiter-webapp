@@ -13,11 +13,8 @@ mongoose.connect(mongoURL,function(err, result) {
 
 var UserSchema = mongoose.Schema({
     name: String,
-    monday: Boolean,
-    tuesday:Boolean,
-    wednesday:Boolean,
-    thursday:Boolean,
-    friday:Boolean
+    days: Object
+
 
    });
 
