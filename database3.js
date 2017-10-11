@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost/waiterdatabase";
+const mongoURL = process.env.MONGO_DB_URL || "mongodb://localhost:27017/waiterdatabase";
 console.log(mongoURL);
 mongoose.connect(mongoURL,function(err, result) {
   if (err) {
